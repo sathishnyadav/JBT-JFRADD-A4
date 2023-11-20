@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.jsp.userapp.dto.User;
@@ -160,5 +162,27 @@ public class UserDao {
 		if (rs != null)
 			rs.close();
 		return "Application Closed!!!";
+	}
+
+	public List<User> findAll() {
+		String qry = "select * from user";
+		List<User> users = new ArrayList<>();
+		try {
+			pst = con.prepareStatement(qry);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				User u = new User();
+				u.setId(rs.getInt(1));
+				u.setName(rs.getString(2));
+				u.setPhone(rs.getLong(3));
+				u.setEmail(rs.getString(4));
+				u.setPassword(rs.getString(5));
+				users.add(u);
+			}
+			return users;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return users;
+		}
 	}
 }

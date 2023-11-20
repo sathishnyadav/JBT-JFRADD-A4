@@ -1,6 +1,7 @@
 package org.jsp.userapp.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import org.jsp.userapp.dao.UserDao;
@@ -21,6 +22,7 @@ public class UserController {
 			System.out.println("5.Find user By Id");
 			System.out.println("6.delete User By Id");
 			System.out.println("7.Exit");
+			System.out.println("8.Display All Users");
 			switch (s.nextInt()) {
 			case 1: {
 				System.out.println("Enter the use id,name,phone,email and password to save user");
@@ -112,6 +114,21 @@ public class UserController {
 					s.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
+				}
+			}
+			case 8: {
+				List<User> users = dao.findAll();
+				if (users.size() > 0) {
+					for (User u : users) {
+						System.out.println("User Found");
+						System.out.println("User Id:" + u.getId());
+						System.out.println("User Name:" + u.getName());
+						System.out.println("Email Id:" + u.getEmail());
+						System.out.println("Phone Number:" + u.getPhone());
+						System.out.println("---------------------------------");
+					}
+				} else {
+					System.err.println("No user present");
 				}
 			}
 			}
